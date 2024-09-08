@@ -36,9 +36,17 @@ export default function Experience() {
 
   // ######## Having reference for the group to animate the donuts
   const donutGroup = useRef();
+  // ######## Having reference using array as ref value
+  const donuts = useRef([]);
   // ######## Rotating the donuts using useframe hook
   useFrame((state, delta) => {
-    for (const donut of donutGroup.current.children) {
+    // ######## Rotating the donuts using useframe hook
+    // for (const donut of donutGroup.current.children) {
+    //   donut.rotation.y += delta * 0.2;
+    // }
+
+    // ######## using array as ref value
+    for (const donut of donuts.current) {
       donut.rotation.y += delta * 0.2;
     }
   });
@@ -91,8 +99,11 @@ export default function Experience() {
         <torusGeometry args={[1, 0.6, 16, 32]} />
         <meshMatcapMaterial matcap={matcapTexture} />
       </mesh> */}
-      <group ref={donutGroup}>
-        {/* Multiple Donuts */}
+
+      {/* ######## Rotating the donuts using useframe hook and grouping the meshes inside group ######  */}
+
+      {/* <group ref={donutGroup}>
+        Multiple Donuts
         {[...Array(100)].map((value, index) => (
           <mesh
             key={index}
@@ -106,11 +117,31 @@ export default function Experience() {
             geometry={torusGeometry}
             material={material}
           >
-            {/* <torusGeometry args={[1, 0.6, 16, 32]} />
-          <meshMatcapMaterial matcap={matcapTexture} /> */}
+            <torusGeometry args={[1, 0.6, 16, 32]} />
+          <meshMatcapMaterial matcap={matcapTexture} />
           </mesh>
         ))}
-      </group>
+      </group> */}
+
+      {[...Array(100)].map((value, index) => (
+        <mesh
+          // ref={(element) => donuts.current.push(element)} instead of pushing elements we have to add element at specific index
+          ref={(element) => (donuts.current[index] = element)}
+          key={index}
+          position={[
+            (Math.random() - 0.5) * 10,
+            (Math.random() - 0.5) * 10,
+            (Math.random() - 0.5) * 10,
+          ]}
+          scale={0.2 + Math.random() * 0.2}
+          rotation={[Math.random() * Math.PI, Math.random() * Math.PI, 0]}
+          geometry={torusGeometry}
+          material={material}
+        >
+          {/* <torusGeometry args={[1, 0.6, 16, 32]} />
+          <meshMatcapMaterial matcap={matcapTexture} /> */}
+        </mesh>
+      ))}
     </>
   );
 }
