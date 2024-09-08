@@ -50,3 +50,18 @@
       ))}
 
     Geometries :
+
+    Due to mapping we have multiple geometries, since we have similar geometries we don't need to create multiple geometry. To optimize the application we have to create a geometry only single time.
+
+    To fix this we have multiple ways
+
+    Create one <torusGeometry> outside of the mesh
+    Store the geometry using react's useState.
+    Put the geometry state back on the <mesh> of the donuts
+
+    <torusGeometry ref={setTorusGeometry} args={[1, 0.6, 16, 32]} />
+
+    passing a function to ref attribute is similar to setting the value of torusGeometry state equal to the
+    <torusGeometry args={[1, 0.6, 16, 32]} />  or calling
+
+    setTorusGeometry(<torusGeometry args={[1, 0.6, 16, 32]} />) =  <torusGeometry ref={setTorusGeometry} args={[1, 0.6, 16, 32]} />

@@ -5,8 +5,12 @@ import {
   OrbitControls,
 } from "@react-three/drei";
 import { Perf } from "r3f-perf";
+import { useState } from "react";
 
 export default function Experience() {
+  const [torusGeometry, setTorusGeometry] = useState();
+  const [material, setMaterial] = useState();
+
   const [matcapTexture] = useMatcapTexture("36220C_C6C391_8C844A_8B7B4C", 256);
 
   const tempArray = [...Array(100)];
@@ -17,6 +21,12 @@ export default function Experience() {
       <Perf position="top-left" />
 
       <OrbitControls makeDefault />
+      {/* passing a function to ref attribute is similar to setting the value of torusGeometry state equal to the
+      <torusGeometry args={[1, 0.6, 16, 32]} />  or calling setTorusGeometry(<torusGeometry args={[1, 0.6, 16, 32]}) */}
+      <torusGeometry ref={setTorusGeometry} args={[1, 0.6, 16, 32]} />
+
+      {/* bringing material outside the loop */}
+      <meshMatcapMaterial ref={setMaterial} matcap={matcapTexture} />
 
       {/* <mesh scale={1.5}>
         <boxGeometry />
@@ -26,6 +36,7 @@ export default function Experience() {
       {/* Centering the text */}
       <Center>
         <Text3D
+          material={material}
           font="./fonts/helvetiker_regular.typeface.json"
           size={0.76}
           height={0.2}
@@ -39,7 +50,7 @@ export default function Experience() {
           Hello world
           {/* <meshNormalMaterial /> */}
           {/* use matcap material */}
-          <meshMatcapMaterial matcap={matcapTexture} />
+          {/* <meshMatcapMaterial matcap={matcapTexture} /> */}
         </Text3D>
       </Center>
 
@@ -60,9 +71,11 @@ export default function Experience() {
           ]}
           scale={0.2 + Math.random() * 0.2}
           rotation={[Math.random() * Math.PI, Math.random() * Math.PI, 0]}
+          geometry={torusGeometry}
+          material={material}
         >
-          <torusGeometry args={[1, 0.6, 16, 32]} />
-          <meshMatcapMaterial matcap={matcapTexture} />
+          {/* <torusGeometry args={[1, 0.6, 16, 32]} />
+          <meshMatcapMaterial matcap={matcapTexture} /> */}
         </mesh>
       ))}
     </>
