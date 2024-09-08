@@ -55,13 +55,17 @@
 
     To fix this we have multiple ways
 
-    Create one <torusGeometry> outside of the mesh
-    Store the geometry using react's useState.
-    Put the geometry state back on the <mesh> of the donuts
+    1.  Using r3f tricks
 
-    <torusGeometry ref={setTorusGeometry} args={[1, 0.6, 16, 32]} />
+        Create one <torusGeometry> outside of the mesh
+        Store the geometry using react's useState.
+        Put the geometry state back on the <mesh> of the donuts
 
-    passing a function to ref attribute is similar to setting the value of torusGeometry state equal to the
-    <torusGeometry args={[1, 0.6, 16, 32]} />  or calling
+        <torusGeometry ref={setTorusGeometry} args={[1, 0.6, 16, 32]} />
 
-    setTorusGeometry(<torusGeometry args={[1, 0.6, 16, 32]} />) =  <torusGeometry ref={setTorusGeometry} args={[1, 0.6, 16, 32]} />
+        passing a function to ref attribute is similar to setting the value of torusGeometry state equal to the
+        <torusGeometry args={[1, 0.6, 16, 32]} />  or calling
+
+        setTorusGeometry(<torusGeometry args={[1, 0.6, 16, 32]} />) =  <torusGeometry ref={setTorusGeometry} args={[1, 0.6, 16, 32]} />
+
+    2. Using Three.js (primitive)
