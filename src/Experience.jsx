@@ -4,8 +4,9 @@ import {
   useMatcapTexture,
   OrbitControls,
 } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
 import { Perf } from "r3f-perf";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 // three.js
 import * as THREE from "three";
@@ -32,6 +33,15 @@ export default function Experience() {
     material.matcap = matcapTexture;
     material.needsUpdate = true;
   }, []);
+
+  // ######## Having reference for the group to animate the donuts
+  const donutGroup = useRef();
+  // ######## Rotating the donuts using useframe hook
+  useFrame((state, delta) => {
+    for (const donut of donutGroup.current.children) {
+      donut.rotation.y += delta * 0.2;
+    }
+  });
 
   return (
     <>
@@ -81,25 +91,26 @@ export default function Experience() {
         <torusGeometry args={[1, 0.6, 16, 32]} />
         <meshMatcapMaterial matcap={matcapTexture} />
       </mesh> */}
-
-      {/* Multiple Donuts */}
-      {[...Array(100)].map((value, index) => (
-        <mesh
-          key={index}
-          position={[
-            (Math.random() - 0.5) * 10,
-            (Math.random() - 0.5) * 10,
-            (Math.random() - 0.5) * 10,
-          ]}
-          scale={0.2 + Math.random() * 0.2}
-          rotation={[Math.random() * Math.PI, Math.random() * Math.PI, 0]}
-          geometry={torusGeometry}
-          material={material}
-        >
-          {/* <torusGeometry args={[1, 0.6, 16, 32]} />
+      <group ref={donutGroup}>
+        {/* Multiple Donuts */}
+        {[...Array(100)].map((value, index) => (
+          <mesh
+            key={index}
+            position={[
+              (Math.random() - 0.5) * 10,
+              (Math.random() - 0.5) * 10,
+              (Math.random() - 0.5) * 10,
+            ]}
+            scale={0.2 + Math.random() * 0.2}
+            rotation={[Math.random() * Math.PI, Math.random() * Math.PI, 0]}
+            geometry={torusGeometry}
+            material={material}
+          >
+            {/* <torusGeometry args={[1, 0.6, 16, 32]} />
           <meshMatcapMaterial matcap={matcapTexture} /> */}
-        </mesh>
-      ))}
+          </mesh>
+        ))}
+      </group>
     </>
   );
 }
